@@ -8,9 +8,10 @@ const About = () => {
           <h1 className="text-[#111111] text-sm font-semibold pb-8 ">
             ABOUT US
           </h1>
-          <p className="font-opensans font-bold text-[#111111] text-3xl md:text-4xl lg:text-4xl leading-relaxed mb-10 md:mb-4 lg:mb-4">
+          <p style={{color: 'black'}} className="font-opensans font-bold text-[#111111] text-3xl md:text-4xl lg:text-4xl leading-relaxed mb-10 md:mb-4 lg:mb-4">
             Donate to the great priest's nonprofit.
           </p>
+          <p style={{color: 'black'}}>Your donation is tax-deductible.</p>
           <a
             href="#top"
             className=" flex items-center justify-center h-11 w-44 bg-red-700 transition ease-out duration-700 rounded text-white font-montserrat text-sm transform scale-100 hover:scale-110  "

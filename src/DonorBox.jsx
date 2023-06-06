@@ -7,7 +7,7 @@ export default function DonorBox({ amount }) {
         paypalExpress="false"
       ></script>
       <iframe
-        src={`https://donorbox.org/embed/world-science-dao?default_interval=o&cy=EUR&amount=${amount}`}
+        src={`https://donorbox.org/embed/support-great-priest?default_interval=o&cy=EUR&amount=${amount}`}
         name="donorbox"
         allowpaymentrequest="allowpaymentrequest"
         seamless="seamless"

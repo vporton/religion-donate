@@ -15,7 +15,7 @@ const Navbar: React.FC<Props> = ({ amount, handleModal, onChange }) => {
           className="text-black text-sm md:text-2xl font-black"
           href="https://science-dao.org"
         >
-          World Science DAO
+          The Great Priest
         </a>
         <a href="#!">
           {/* <img src={Logo} alt="logo" className=" w-32 md:w-40 lg:w-40 " /> */}

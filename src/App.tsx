@@ -181,7 +181,7 @@ function AppMainPart() {
   async function initCardAppDonation() {
     const logo = `${document.location.protocol}//${document.location.host}${document.location.pathname}logo.svg`;
     new RampInstantSDK({
-      hostAppName: "World Science DAO Donation",
+      hostAppName: "Donation to Great Priest",
       hostLogoUrl: logo,
       userAddress: address,
       hostApiKey: rampApiKey,
@@ -359,7 +359,7 @@ function AppMainPart() {
 
 function App() {
   useEffect(() => {
-    document.title = "Donations - World Science DAO";
+    document.title = "Donations - the Great Priest";
   }, []);
   return (
     <div className="App">
