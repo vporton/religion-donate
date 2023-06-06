@@ -1,6 +1,6 @@
 import React from "react";
 import hero from "../assets/hero.png";
-import address from "../assets/address.png";
+import address from "../assets/address.svg";
 import MetamaskLogo from "./MetamaskLogo";
 import { Web3Button } from "@web3modal/react";
 
@@ -19,8 +19,8 @@ const Hero = ({ handleModal }: any) => {
                     WE CAN CHANGE THE WORLD TOGETHER
                 </p>
                 <div className=" flex flex-col items-start text-white text-4xl md:text-5xl lg:text-5xl font-bold text-center font-opensans mb-20">
-                    <p className="pb-6">Donate for Science</p>
-                    <p>And Change Lives</p>
+                    <p className="pb-6">Donate for Faith</p>
+                    <p>And Change World</p>
                 </div>
                 <div className="flex flex-col md:flex-col lg:flex-row items-center mb-10  ">
                     <button onClick={handleModal} className="h-11 w-40 bg-red-700  text-white  font-montserrat font-medium  rounded transform scale-100 hover:scale-110 transition ease-out duration-700  lg:mr-6 mb-4 md:mb-6 lg:mb-0 " style={{width: '200px'}}>
@@ -30,8 +30,7 @@ const Hero = ({ handleModal }: any) => {
             </div>
             <div className=" flex flex-col items-center justify-center h-max w-full md:w-80 lg:w-80 bg-white lg:mr-12 mb-10 rounded pt-8">
                 <p className="text-black font-black">SCAN TO DONATE</p>
-                <p className="text-black font-black text-xl md:text-2xl">Donate on Gnosis chain</p>
-                <p className="font-black text-red-600 text-sm px-8">Funds sent to this address on any other chain, including main Ethereum chain, will be irreversibly lost!</p>
+                <p className="text-black font-black text-xl md:text-2xl">Donate crypto</p>
                 <img src={address} alt="qrcode" />
             </div>
         </div>

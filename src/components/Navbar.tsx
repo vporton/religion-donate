@@ -22,13 +22,6 @@ const Navbar: React.FC<Props> = ({ amount, handleModal, onChange }) => {
         </a>
       </div>
 
-      <a
-        className="text-xs md:text-sm hover:text-base hover:text-gray-600 text-black duration-75"
-        href="https://www.etsy.com/shop/vpfund"
-      >
-        <span className="text-red-600">See also:</span> Merch for Geeks
-      </a>
-
       <div className="flex items-center justify-end space-x-4">
         <div className="bg-white flex justify-between items-center px-8 py- rounded-lg shadow-lg border md:mt-0">
           <input

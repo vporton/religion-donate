@@ -14,19 +14,10 @@ import {
   useSigner,
   WagmiConfig,
 } from "wagmi";
-import { gnosis } from "@wagmi/chains";
+import { gnosis, mainnet, bsc } from "@wagmi/chains";
 import { useEffect, useState } from "react";
 import {
   donationsAddress,
-  donationsChainIdHex,
-  donationsCurrencyBlockExplorerUrls,
-  donationsCurrencyDecimals,
-  donationsCurrencyName,
-  donationsCurrencyRpcUrls,
-  donationsCurrencySymbol,
-  donationsNetwork,
-  donationsNetworkName,
-  donationsSwap,
   rampApiKey,
   walletConnectProjectId,
 } from "./config";
@@ -51,7 +42,7 @@ import ModalBox from "./components/ModalBox";
 import Overlay from "./components/Overlay";
 import payment from "./assets/payment.jpg";
 
-const chains = [gnosis]; // TODO: Make configurable
+const chains = [gnosis, mainnet, bsc]; // TODO: Make configurable
 
 // (async () => setDonationsChain())(); // TODO: It's a hack to call it here.
 
@@ -74,10 +65,6 @@ function DonateCryptoButton() {
   const { address } = useAccount();
   const { data: balanceData } = useBalance({ address }); // TODO: `useEffect`?
   const { chain } = useNetwork();
-  function correctChain() {
-    // duplicate code
-    return chain?.network === donationsNetworkName;
-  }
   const handleClickOpen = () => {
     // FIXME: getGasPrice() is sometimes slow, user may click the button several times and open several dialogs.
     wagmiClient.provider.getGasPrice().then((gasPrice) => {
@@ -128,7 +115,7 @@ function DonateCryptoButton() {
       <Button
         onClick={handleClickOpen}
         variant="contained"
-        disabled={address === undefined || !correctChain()}
+        disabled={address === undefined}
       >
         donate
       </Button>
@@ -160,7 +147,7 @@ function DonateCryptoButton() {
           <Button onClick={handleClose}>Cancel</Button>
           <Button
             onClick={handleDonate}
-            disabled={balanceData?.value === undefined || !correctChain()}
+            disabled={balanceData?.value === undefined}
           >
             Donate
           </Button>{" "}
@@ -172,40 +159,6 @@ function DonateCryptoButton() {
 }
 
 async function setDonationsChain() {
-  try {
-    await window.ethereum?.request({
-      method: "wallet_switchEthereumChain",
-      params: [{ chainId: donationsChainIdHex }],
-    });
-  } catch (switchError: any) {
-    // This error code indicates that the chain has not been added to MetaMask.
-    if (switchError.code === 4902) {
-      try {
-        await window.ethereum?.request({
-          method: "wallet_addEthereumChain",
-          params: [
-            {
-              chainId: donationsChainIdHex,
-              chainName: donationsNetwork,
-              nativeCurrency: {
-                name: donationsCurrencyName,
-                symbol: donationsCurrencySymbol,
-                decimals: donationsCurrencyDecimals,
-              },
-              rpcUrls: donationsCurrencyRpcUrls,
-              blockExplorerUrls: donationsCurrencyBlockExplorerUrls,
-              iconUrls: undefined,
-            },
-          ],
-        });
-      } catch (addError: any) {
-        // handle "add" error
-        return;
-      }
-    }
-    // handle other "switch" errors
-    return;
-  }
   // It does not work when MetaMask isn't installed:
   // connect({
   //   connector: new InjectedConnector(),
@@ -230,15 +183,10 @@ function AppMainPart() {
     new RampInstantSDK({
       hostAppName: "World Science DAO Donation",
       hostLogoUrl: logo,
-      swapAsset: donationsSwap,
       userAddress: address,
       hostApiKey: rampApiKey,
       variant: "auto",
     }).show();
-  }
-  function correctChain() {
-    // duplicate code
-    return chain?.network === donationsNetworkName;
   }
 
   const [isOpen, setIsopen] = useState(false);
@@ -341,12 +289,12 @@ function AppMainPart() {
                 <Web3Button />
               </div>
             </div>
-            {correctChain() || !chain ? (
+            {!chain ? (
               ""
             ) : (
               <p>
                 <span className="danger text-black mt-4">
-                  Wrong chain selected, should be {donationsNetwork} chain.
+                  No chain selected.
                 </span>
               </p>
             )}
@@ -367,36 +315,10 @@ function AppMainPart() {
                 </svg>
               </div>
               <p className="text-black ">
-                To donate send xDai or any ERC-20 token to{" "}
+                To donate send to Ethereum address{" "}
                 <span className="text-xs font-bold md:text-base">
                   {donationsAddress}
-                </span>{" "}
-                on <span className="">Gnosis</span> (formerly called{" "}
-                <span className="">Dai</span>) chain.
-              </p>
-            </div>
-
-            <div className="flex items-center space-x-1 text-left">
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-8 h-8"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-
-              <p className="">
-                <strong className="danger">
-                  Funds sent to this address on any other chain, including main
-                  Ethereum chain, will be irreversibly lost!
-                </strong>
+                </span>
               </p>
             </div>
 
@@ -417,86 +339,15 @@ function AppMainPart() {
               </div>
 
               <p className="mt-4 text-black">
-                To send xDai to the correct chain and the correct address you
+                To send, you
                 can use{" "}
                 <span style={{ display: "inline-block", margin: "12px 0" }}>
                   <DonateCryptoButton />
                 </span>{" "}
-                button (after you buy xDai).
+                button.
               </p>
             </div>
-
-            <p className="mt-8 text-black font-medium">
-              Before donating xDai, you may need to buy xDai. First create an
-              Ethereum account by clicking <q>Connect wallet</q> above and
-              choosing any of offered wallets. There are{" "}
-              <a
-                href="https://www.coinbase.com/how-to-buy/xdaistable"
-                target="_blank"
-                rel="noreferrer"
-              >
-                several ways to buy xDai
-              </a>{" "}
-              to your Ethereum account:
-            </p>
-
-            <ul className=" font-medium">
-              <li className="text-black">
-                (Beginners' option){" "}
-                <Button variant="contained" onClick={initCardAppDonation}>
-                  {" "}
-                  Buy xDai by credit card or SEPA, etc.
-                </Button>
-                {address !== undefined ? (
-                  <>
-                    {" "}
-                    <em>
-                      Because you connected your crypto wallet, purchased xDai
-                      will go to that account, you don't need to enter a crypto
-                      address while purchasing. Don't forget to donate after
-                      purchasing.
-                    </em>
-                  </>
-                ) : (
-                  ""
-                )}
-              </li>
-              <li className="text-black">
-                (Requires some knowledge of crypto) You can first{" "}
-                <a
-                  href="https://coinmarketcap.com/currencies/wxdai/markets/"
-                  target="markets"
-                >
-                  purchase wxDai
-                </a>{" "}
-                and then{" "}
-                <a
-                  href="https://app.openocean.finance/CLASSIC#/XDAI/WXDAI/XDAI"
-                  target="markets"
-                >
-                  swap it for xDai
-                </a>
-                .
-              </li>
-              <li className="text-black">
-                (Requires expertise in using crypto exchanges) You can first{" "}
-                <a
-                  href="https://www.google.com/search?q=how+to+purchase+USDT"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  buy USDT
-                </a>{" "}
-                and then use{" "}
-                <a
-                  href="https://ascendex.com/en/cashtrade-spottrading/usdt/xdai"
-                  target="markets"
-                >
-                  AscendEX to exchange it for xDai.
-                </a>
-              </li>
-            </ul>
-          </div>
+         </div>
         </div>
       </div>
 
