@@ -20,7 +20,7 @@ const Navbar: React.FC<Props> = ({ amount, handleModal, onChange }) => {
       <div>
         <a
           className="text-black text-sm md:text-2xl font-black mb-4 md:mb-0"
-          href="https://science-dao.org"
+          href="https://after-gospel.vporton.name"
         >
           The Great Priest
         </a>
