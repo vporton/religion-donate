@@ -16,11 +16,7 @@ import {
 } from "wagmi";
 import { gnosis, mainnet, bsc } from "@wagmi/chains";
 import { useEffect, useState } from "react";
-import {
-  donationsAddress,
-  rampApiKey,
-  walletConnectProjectId,
-} from "./config";
+import { donationsAddress, rampApiKey, walletConnectProjectId } from "./config";
 import { RampInstantSDK } from "@ramp-network/ramp-instant-sdk";
 import "./App.css";
 import {
@@ -40,7 +36,8 @@ import Hero from "./components/Hero";
 import About from "./components/About";
 import ModalBox from "./components/ModalBox";
 import Overlay from "./components/Overlay";
-import payment from "./assets/payment.jpg";
+import donateIcon from "./assets/debit-card.png";
+import { Link } from "react-router-dom";
 
 const chains = [gnosis, mainnet, bsc]; // TODO: Make configurable
 
@@ -206,6 +203,10 @@ function AppMainPart() {
     console.log(currency);
   };
 
+  const handleLink = () => {
+    window.location.href = "/donate-to-victor-portons-foundation/";
+  };
+
   return (
     <div className="relative bg-white">
       {isOpen ? (
@@ -227,59 +228,24 @@ function AppMainPart() {
         }}
         id="top"
       >
-        <div className="w-[90%] md:w-[80%] mx-auto flex flex-col text-center md:flex-row md:justify-center items-center md:items-start ">
-          <div className="md:w-[50%] md:ml-32">
+        <div className="w-[90%] md:w-[80%] mx-auto flex flex-col text-left md:flex-row md:justify-center md:items-start ">
+          <div className="grid gap-2 md:w-[50%] md:ml-32">
             {/* <DonorBox /> */}
 
-            <h4 className="text-2xl md:text-4xl text-black font-black md:mb-4 mt-6">
-              DONATE WITH YOUR CREDITCARD HERE
-            </h4>
-
-            <div className="flex items-center space-x-4 md:mb-4  mt-4 justify-center">
-              {/* <div className="bg-white flex justify-between items-center px-8 rounded-lg shadow-lg border">
-                <select
-                  className="py-4 w-full outline-none"
-                  value={currency}
-                  onChange={handleSelect}
-                >
-                  <option value="USD">US Dollars (USD)</option>
-                  <option value="EUR">Euros (EUR)</option>
-                </select>
-              </div> */}
-
-              <div className="bg-white flex justify-between items-center px-8 py- rounded-lg shadow-lg border md:mt-0">
-                <input
-                  name="amount"
-                  value={amount}
-                  className="bg-transparent w-[95%] outline-none py-4"
-                  type="number"
-                  placeholder="Enter your amount..."
-                  onChange={onChange}
-                />
-                <div className="bg-transparent border w-max rounded-lg p-2">
-                  $$
-                </div>
-              </div>
-
-              <button
-                onClick={handleModal}
-                className="h-11 w-40 bg-red-700  text-white  font-montserrat font-medium  rounded transform scale-100 hover:scale-110 transition ease-out duration-700  lg:mr-6 mb-10 md:mb-6 lg:mb-0"
-              >
-                Donate Now
-              </button>
-            </div>
-
-            <img
-              className="w-36 md:w-80 mb-8 m-auto md:mt-8"
-              src={payment}
-              alt="payment"
-            />
+            <button onClick={handleLink}>
+              <img
+                className="w-[100px] md:w-[200px] mx-auto mb-4 md:mb-0"
+                src={donateIcon}
+                alt="donate icon"
+              />
+            </button>
+            <button className="text-rose-600 mb-8 md:mb-0" onClick={handleLink}>Donate by credit card</button>
           </div>
 
           <div className="container pb-8 text-center md:text-left space-y-4 text-black md:text-[16px] -mt-20 md:mt-0">
             <div>
               <h4 className="text-2xl md:text-4xl text-black font-black mb-4">
-                OR DONATE BY CRYPTO{" "}
+                DONATE BY CRYPTO{" "}
               </h4>
               <p className="font-bold text-black text-left text-xl mb-4">
                 Funds on your wallet: {balanceData?.formatted}{" "}
@@ -339,15 +305,14 @@ function AppMainPart() {
               </div>
 
               <p className="mt-4 text-black">
-                To send, you
-                can use{" "}
+                To send, you can use{" "}
                 <span style={{ display: "inline-block", margin: "12px 0" }}>
                   <DonateCryptoButton />
                 </span>{" "}
                 button.
               </p>
             </div>
-         </div>
+          </div>
         </div>
       </div>
 
